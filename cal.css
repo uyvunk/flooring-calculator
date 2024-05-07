@@ -1,7 +1,21 @@
 body {
-  font-family: "Roboto", Arial, sans-serif; /* Replace "Roboto" with your desired modern font */
+  font-family: "Roboto", Arial, sans-serif;
+  /* Replace "Roboto" with your desired modern font */
   font-size: 16px;
   line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 18px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  button {
+    font-size: 18px;
+  }
 }
 
 /* Style for the table */
@@ -44,7 +58,7 @@ tbody tr:hover {
 
 label {
   margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   align-self: flex-start;
 }
 
@@ -69,11 +83,13 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
 #visual {
   display: flex;
 }
 
-#widthCalculateResult, #heightCalculateResult {
+#widthCalculateResult,
+#heightCalculateResult {
   display: inline-block;
   width: 40%;
   padding: 10px;
