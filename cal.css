@@ -9,13 +9,6 @@ body {
   body {
     font-size: 18px;
   }
-
-  input[type="text"],
-  input[type="email"],
-  textarea,
-  button {
-    font-size: 18px;
-  }
 }
 
 /* Style for the table */
@@ -57,9 +50,9 @@ tbody tr:hover {
 }
 
 label {
-  margin-top: 10px;
   margin-bottom: 3px;
   align-self: flex-start;
+  font-weight: 500;
 }
 
 input[type="text"],
@@ -72,12 +65,15 @@ button {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
+  font-size: inherit;
 }
 
 button {
+  margin-top: 14px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+  font-weight: bold;
 }
 
 button:hover {
@@ -86,6 +82,7 @@ button:hover {
 
 #visual {
   display: flex;
+  flex-wrap: wrap;
 }
 
 #widthCalculateResult,
@@ -94,4 +91,5 @@ button:hover {
   width: 40%;
   padding: 10px;
   margin: 10px;
+  min-width: 350px;
 }
