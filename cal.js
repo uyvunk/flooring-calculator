@@ -15,6 +15,10 @@ let resultCalculateWidth = {};
 let resultCalculateHeight = {};
 
 function getValue(element) {
+    if (element.value.includes("/")) {
+        let nums = element.value.split(" ");
+        return parseFloat(nums[0]) + parseFloat(eval(nums[1]));
+    }
     return parseFloat(element.value || 0);
 }
 
@@ -30,22 +34,21 @@ function calculateWidth() {
     for (let startWidth = minStartWidth; startWidth <= maxStartWidth; startWidth = startWidth + INCREMENT) {
         let row = 0;
         let endWidth = 0;
+        let currentStartWidth = startWidth;
         do {
-            let currentStartWidth = row == 0 ? startWidth : endWidth;
             let wholeTiles = Math.floor((getValue(roomWidth) - currentStartWidth) / getValue(tileWidth));
             endWidth = getValue(roomWidth) - currentStartWidth - wholeTiles * getValue(tileWidth);
+            currentStartWidth = getValue(tileWidth) - endWidth;
             row++;
-        } while (endWidth >= getValue(minWidth) && row * getValue(tileHeight) <= getValue(roomHeight))
+        } while (endWidth >= getValue(minWidth) && currentStartWidth >= getValue(minWidth)  && row * getValue(tileHeight) <= getValue(roomHeight))
         resultCalculateWidth[`${startWidth}`] = {rows: row, endWidth, height: row * getValue(tileHeight)}
     }
-    // Object.keys(resultCalculateWidth).forEach(startWidth => {
-    //     console.log(`${startWidth}: rows: ${resultCalculateWidth[startWidth].rows}, height: ${resultCalculateWidth[startWidth].height}, endWidth: ${resultCalculateWidth[startWidth].endWidth}`)
-    // });
+    
     let sortedKeys = Object.keys(resultCalculateWidth).sort((a, b) => {
         return resultCalculateWidth[b].rows - resultCalculateWidth[a].rows;
     });
     // Creating HTML table
-    let htmlTable = "<table><thead><tr><th>Start Width</th><th>Rows</th><th>Height</th><th>End Width</th></tr></thead><tbody>";
+    let htmlTable = "<table><thead><tr><th>Start Width</th><th>Rows</th><th>Total Height</th><th>Last Row End Width</th></tr></thead><tbody>";
     sortedKeys.forEach(key => {
         let rowData = resultCalculateWidth[key];
         htmlTable += `<tr><td>${convertTo16String(key)}</td><td>${rowData.rows}</td><td>${convertTo16String(rowData.height)}</td><td>${convertTo16String(rowData.endWidth)}</td></tr>`;
@@ -65,12 +68,10 @@ function calculateHeight() {
             resultCalculateHeight[startHeight] = {startHeight: startHeight, endHeight: endHeight};
         }
     }
-    // Object.keys(resultCalculateHeight).forEach(startHeight => {
-    //     console.log(`${startHeight}: startHeigth: ${resultCalculateHeight[startHeight].startHeight}, endHeight: ${resultCalculateHeight[startHeight].endHeight}`)
-    // });
+
     // Sorting keys based on the 'endHeight' property in descending order
     let sortedKeys = Object.keys(resultCalculateHeight).sort((a, b) => {
-        return resultCalculateHeight[b].endHeight - resultCalculateHeight[a].endHeight;
+        return resultCalculateHeight[b].startHeight - resultCalculateHeight[a].startHeight;
     });
 
     // Creating HTML table
